@@ -5,6 +5,7 @@ library(shiny)
 library(tidyverse)
 library(lubridate)
 library(countrycode)
+library(fs)
 
 # Prepare data after downloading and restarting, or just load prepared data
 

@@ -2,8 +2,21 @@
 
 fileTime <- as_date(file.mtime("files/Road_driver_stats.csv"))
 
-roadDrivers <- read_csv("files/Road_driver_stats.csv")
-ovalDrivers <- read_csv("files/Oval_driver_stats.csv")
+if(file.exists("files/Road_driver_stats.csv")) {
+  roadDrivers <- read_csv("files/Road_driver_stats.csv")
+} else {
+  download.file("https://s3.amazonaws.com/ir-data-now/csv/Road_driver_stats.csv", "files/Road_driver_stats.csv")
+  roadDrivers <- read_csv("files/Road_driver_stats.csv")
+}
+if(file.exists("files/Oval_driver_stats.csv")) {
+  ovalDrivers <- read_csv("files/Oval_driver_stats.csv")
+} else {
+  download.file("https://s3.amazonaws.com/ir-data-now/csv/Oval_driver_stats.csv", "files/Oval_driver_stats.csv")
+  ovalDrivers <- read_csv("files/Oval_driver_stats.csv")
+}
+
+fileTime <- as_date(file.mtime("files/Road_driver_stats.csv"))
+
 colnames(roadDrivers) <- make.names(c("Driver", "CustID", "Location", "Club name", "Starts", "Wins", "Avg Start Pos", "Avg Finish Pos",
                                       "Avg Points", "Top 25%", "Laps", "Laps lead", "Avg Inc", "Class", "iRating", "ttRating",
                                       "Total Club Points", "Championship Points"))
@@ -53,7 +66,7 @@ combinedDrivers <- merge(roadComb, ovalComb, by = "Driver")
 saveRDS(roadDrivers, file = "files/roadDrivers.rds", compress = T)
 saveRDS(ovalDrivers, file = "files/ovalDrivers.rds", compress = T)  
 saveRDS(combinedDrivers, file = "files/combinedDrivers.rds", compress = T)
-
+dir_create("files/archive")
 saveRDS(combinedDrivers, file = paste0("files/archive/combinedDrivers-", fileTime, ".rds"), compress = T)
 
 # roadDrivers <- readRDS("files/roadDrivers.rds")
