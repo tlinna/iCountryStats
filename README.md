@@ -1,5 +1,5 @@
 # iCountryStats
-Shiny app to display reactive iRacing statistics on a web page
+Shiny app to display reactive iRacing statistics on a web page.
 
 See it running at [my server](https://shiny.linnaluoto.eu/iCountryStats/).
 
